@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriBloom — Wellness in Every Bite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ───── Reset & Base ───── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #2d2d2d;
+      background: #fffdf7;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ───── Image Enhancements ───── */
+    .img-enhanced {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    /* ───── CSS Variables ───── */
+    :root {
+      --green: #4a7c59;
+      --green-light: #6ba368;
+      --gold: #c8a951;
+      --gold-light: #f5e6b8;
+      --cream: #faf6eb;
+      --beige: #f0e8d5;
+      --brown: #7a5c3e;
+      --text: #2d2d2d;
+      --white: #ffffff;
+      --shadow: 0 8px 30px rgba(0,0,0,.08);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,.12);
+      --radius: 16px;
+      --transition: .35s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ───── Utility ───── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 12px;
+      color: var(--green);
+    }
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #777;
+      margin-bottom: 48px;
+      font-weight: 300;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .badge-green { background: #e8f5e0; color: var(--green); }
+    .badge-gold  { background: var(--gold-light); color: var(--brown); }
+
+    /* ───── Scroll Reveal ───── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════ */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      background: rgba(255,253,247,.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0,0,0,.05);
+      transition: var(--transition);
+    }
+    .navbar.scrolled { background: rgba(255,253,247,.97); box-shadow: 0 2px 20px rgba(0,0,0,.06); }
+    .navbar .container {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 800; color: var(--green);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      font-size: .9rem; font-weight: 500; color: var(--text);
+      position: relative; transition: color var(--transition);
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px; background: var(--green);
+      transition: width var(--transition);
+    }
+    .nav-links a:hover { color: var(--green); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--green); color: var(--white) !important;
+      padding: 10px 24px; border-radius: 50px;
+      font-weight: 600; font-size: .85rem;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .nav-cta:hover { background: var(--green-light); transform: translateY(-2px); }
+    .nav-cta::after { display: none !important; }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+    .hamburger span { width: 26px; height: 2.5px; background: var(--text); border-radius: 2px; transition: var(--transition); }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+        flex-direction: column; background: var(--cream);
+        padding: 100px 40px 40px; gap: 24px;
+        transition: right var(--transition);
+        box-shadow: -4px 0 30px rgba(0,0,0,.1);
+      }
+      .nav-links.open { right: 0; }
+    }
+
+    /* ═══════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      background: linear-gradient(135deg, #faf6eb 0%, #e8f5e0 50%, #f5e6b8 100%);
+      position: relative;
+      overflow: hidden;
+      padding-top: 70px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -150px; right: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(200,169,81,.15), transparent 70%);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(74,124,89,.1), transparent 70%);
+      border-radius: 50%;
+    }
+    /* Decorative leaf shapes */
+    .hero-leaf {
+      position: absolute; opacity: .06; z-index: 0; pointer-events: none;
+    }
+    .hero-leaf-1 { top: 10%; left: 5%; font-size: 120px; transform: rotate(-30deg); animation: leafSway 6s ease-in-out infinite; }
+    .hero-leaf-2 { bottom: 15%; right: 8%; font-size: 90px; transform: rotate(20deg); animation: leafSway 8s ease-in-out infinite reverse; }
+    .hero-leaf-3 { top: 60%; left: 45%; font-size: 60px; transform: rotate(50deg); animation: leafSway 7s ease-in-out infinite; }
+    @keyframes leafSway {
+      0%, 100% { transform: rotate(var(--r, -30deg)) translateY(0); }
+      50% { transform: rotate(var(--r, -30deg)) translateY(-12px); }
+    }
+    .hero .container {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .hero-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800; line-height: 1.15;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .hero-text h1 span { color: var(--gold); display: block; }
+    .hero-tagline {
+      font-size: 1.25rem; color: #666; margin: 16px 0 32px;
+      font-weight: 300; line-height: 1.6;
+    }
+    .hero-tagline em { color: var(--green); font-style: normal; font-weight: 500; }
+    .hero-badges { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+    .hero-badges .badge { font-size: .8rem; padding: 6px 16px; }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn {
+      padding: 14px 32px; border-radius: 50px; font-size: .95rem;
+      font-weight: 600; cursor: pointer; border: none;
+      transition: all var(--transition); display: inline-flex;
+      align-items: center; gap: 8px;
+    }
+    .btn-primary { background: var(--green); color: var(--white); }
+    .btn-primary:hover { background: var(--green-light); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(74,124,89,.3); }
+    .btn-outline {
+      background: transparent; color: var(--green);
+      border: 2px solid var(--green);
+    }
+    .btn-outline:hover { background: var(--green); color: var(--white); transform: translateY(-3px); }
+
+    .hero-visual {
+      position: relative;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .hero-img-wrapper {
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f5f0e3, #e8f5e0);
+      box-shadow: 0 20px 60px rgba(74,124,89,.25), 0 0 0 12px rgba(255,255,255,.3), 0 0 0 24px rgba(74,124,89,.08);
+      border: 6px solid rgba(255,255,255,.8);
+      animation: heroFloat 4s ease-in-out infinite;
+    }
+    .hero-img-wrapper img {
+      width: 100%; height: 100%; object-fit: contain;
+      object-position: center center;
+      image-rendering: -webkit-optimize-contrast;
+    }
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
+    }
+    .hero-float-card {
+      position: absolute; background: var(--white);
+      padding: 14px 20px; border-radius: 14px;
+      box-shadow: var(--shadow); font-size: .85rem;
+      display: flex; align-items: center; gap: 10px;
+      animation: floatCard 3s ease-in-out infinite;
+    }
+    .hero-float-card:nth-child(2) { top: 20px; left: -30px; animation-delay: .5s; }
+    .hero-float-card:nth-child(3) { bottom: 40px; right: -20px; animation-delay: 1s; }
+    .hero-float-card .icon { font-size: 1.4rem; }
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @media (max-width: 768px) {
+      .hero .container { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+      .hero-badges { justify-content: center; }
+      .hero-btns { justify-content: center; }
+      .hero-img-wrapper { width: 240px; height: 240px; }
+      .hero-float-card { display: none; }
+    }
+
+    /* ═══════════════════════════════════════
+       BRAND HIGHLIGHTS BAR
+    ═══════════════════════════════════════ */
+    .highlights-bar {
+      background: var(--green);
+      padding: 28px 0;
+      overflow: hidden;
+    }
+    .highlights-track {
+      display: flex; gap: 60px; animation: scrollHighlights 20s linear infinite;
+      width: max-content;
+    }
+    .highlights-track .item {
+      display: flex; align-items: center; gap: 10px;
+      white-space: nowrap; color: var(--white);
+      font-weight: 500; font-size: .95rem;
+    }
+    .highlights-track .item .icon { font-size: 1.3rem; }
+    @keyframes scrollHighlights {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ═══════════════════════════════════════
+       ABOUT
+    ═══════════════════════════════════════ */
+    .about { padding: 100px 0; background: var(--white); }
+    .about .container {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .about-img-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .about-img-grid img {
+      border-radius: var(--radius);
+      width: 100%; aspect-ratio: 4/3; object-fit: cover;
+      transition: transform var(--transition);
+    }
+    .about-img-grid img:hover { transform: scale(1.03); }
+    .about-img-grid img:first-child { grid-column: span 2; aspect-ratio: 16/9; object-position: center 30%; }
+    .about-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; color: var(--green); margin-bottom: 20px;
+    }
+    .about-content p { color: #666; line-height: 1.8; margin-bottom: 16px; }
+    .about-stats {
+      display: flex; gap: 32px; margin-top: 28px;
+    }
+    .about-stats .stat h3 {
+      font-size: 2rem; color: var(--gold); font-weight: 700;
+      font-family: 'Playfair Display', serif;
+    }
+    .about-stats .stat p { font-size: .85rem; color: #999; }
+
+    @media (max-width: 768px) {
+      .about .container { grid-template-columns: 1fr; }
+      .about-img-grid img:first-child { aspect-ratio: 16/9; }
+    }
+
+    /* ═══════════════════════════════════════
+       PRODUCTS
+    ═══════════════════════════════════════ */
+    .products { padding: 100px 0; background: var(--cream); }
+
+    /* Category Tabs */
+    .product-tabs {
+      display: flex; justify-content: center; gap: 16px;
+      margin-bottom: 48px; flex-wrap: wrap;
+    }
+    .product-tab {
+      padding: 10px 28px; border-radius: 50px;
+      font-size: .9rem; font-weight: 500;
+      cursor: pointer; border: 2px solid #ddd;
+      background: var(--white); color: #777;
+      transition: all var(--transition);
+    }
+    .product-tab:hover { border-color: var(--green); color: var(--green); }
+    .product-tab.active { background: var(--green); color: var(--white); border-color: var(--green); }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    /* Product Card */
+    .product-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+    .product-card-img {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #f5f0e3, #e8f5e0);
+    }
+    .product-card-img img {
+      width: 100%; aspect-ratio: 4/3; object-fit: contain;
+      object-position: center center;
+      transition: transform .5s ease;
+      image-rendering: -webkit-optimize-contrast;
+    }
+    .product-card:hover .product-card-img img { transform: scale(1.05); }
+    .product-card-img .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.5), transparent);
+      opacity: 0; transition: opacity var(--transition);
+      display: flex; align-items: flex-end; padding: 20px;
+    }
+    .product-card:hover .overlay { opacity: 1; }
+    .overlay-text { color: var(--white); font-weight: 500; font-size: .9rem; }
+    .product-card-body { padding: 24px; }
+    .product-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; color: var(--text); margin-bottom: 8px;
+    }
+    .product-card-body .tagline {
+      font-size: .85rem; color: var(--gold); font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .product-card-body .benefits { display: none; }
+    .product-card-body .benefits.show {
+      display: block; animation: fadeIn .3s ease;
+    }
+    .product-card-body .benefits ul { padding: 0; }
+    .product-card-body .benefits li {
+      font-size: .85rem; color: #666; padding: 4px 0;
+      padding-left: 20px; position: relative;
+    }
+    .product-card-body .benefits li::before {
+      content: '✦'; position: absolute; left: 0;
+      color: var(--green); font-size: .7rem; top: 6px;
+    }
+    .product-card-body .toggle-btn {
+      margin-top: 12px; background: none; border: none;
+      color: var(--green); font-weight: 600; font-size: .85rem;
+      cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: color var(--transition);
+    }
+    .product-card-body .toggle-btn:hover { color: var(--green-light); }
+    .product-card-body .toggle-btn .arrow { transition: transform var(--transition); }
+    .product-card-body .toggle-btn.open .arrow { transform: rotate(180deg); }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 560px) {
+      .product-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════
+       VIDEO GALLERY
+    ═══════════════════════════════════════ */
+    .videos { padding: 100px 0; background: var(--white); }
+    .video-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 28px;
+    }
+    .video-card {
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); background: #000;
+      transition: transform var(--transition);
+    }
+    .video-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .video-card video {
+      width: 100%; aspect-ratio: 16/9; object-fit: contain;
+      background: #000; cursor: pointer;
+    }
+    .video-card video:hover { opacity: .9; }
+    .video-card .caption {
+      padding: 16px 20px; background: var(--white);
+    }
+    .video-card .caption h4 { font-size: 1rem; color: var(--text); }
+    .video-card .caption p { font-size: .8rem; color: #999; margin-top: 4px; }
+
+    @media (max-width: 560px) { .video-grid { grid-template-columns: 1fr; } }
+
+    /* ═══════════════════════════════════════
+       GIFTING
+    ═══════════════════════════════════════ */
+    .gifting {
+      padding: 100px 0;
+      background: linear-gradient(135deg, var(--cream), var(--gold-light));
+    }
+    .gifting-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .gifting-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; color: var(--green); margin-bottom: 20px;
+    }
+    .gifting-content p { color: #666; line-height: 1.8; margin-bottom: 12px; }
+    .gifting-content ul li {
+      padding: 8px 0; color: #555; font-size: .95rem;
+      padding-left: 28px; position: relative;
+    }
+    .gifting-content ul li::before {
+      content: '🎁'; position: absolute; left: 0; top: 6px;
+    }
+    .gifting-images {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .gifting-images img {
+      border-radius: var(--radius);
+      width: 100%; aspect-ratio: 3/4; object-fit: contain;
+      background: var(--cream);
+      transition: transform var(--transition);
+    }
+    .gifting-images img:hover { transform: scale(1.04); }
+
+    @media (max-width: 768px) {
+      .gifting-inner { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════
+       GALLERY (Exhibition)
+    ═══════════════════════════════════════ */
+    .gallery { padding: 100px 0; background: var(--white); }
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+    }
+    .gallery-grid img {
+      border-radius: var(--radius);
+      width: 100%; aspect-ratio: 1/1; object-fit: contain;
+      background: var(--cream);
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+    }
+    .gallery-grid img:hover { transform: scale(1.04); box-shadow: var(--shadow-lg); }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.9);
+      display: none; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .3s ease;
+    }
+    .lightbox.open { display: flex; opacity: 1; }
+    .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 12px; }
+    .lightbox-close {
+      position: absolute; top: 24px; right: 32px;
+      font-size: 2rem; color: #fff; cursor: pointer;
+      background: none; border: none; z-index: 2001;
+    }
+
+    /* ═══════════════════════════════════════
+       CONTACT
+    ═══════════════════════════════════════ */
+    .contact { padding: 100px 0; background: var(--green); color: var(--white); }
+    .contact .section-title { color: var(--white); }
+    .contact .section-subtitle { color: rgba(255,255,255,.6); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
+    }
+    .contact-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; margin-bottom: 24px;
+    }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      margin-bottom: 24px;
+    }
+    .contact-icon {
+      width: 48px; height: 48px;
+      background: rgba(255,255,255,.12);
+      border-radius: 12px; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .contact-item h4 { font-size: .95rem; margin-bottom: 4px; }
+    .contact-item p { font-size: .9rem; color: rgba(255,255,255,.7); }
+    .contact-item a { color: var(--gold-light); transition: color var(--transition); }
+    .contact-item a:hover { color: var(--gold); }
+
+    .contact-form {
+      background: rgba(255,255,255,.08);
+      padding: 36px; border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+    .contact-form h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; margin-bottom: 24px;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block; font-size: .85rem; margin-bottom: 6px;
+      color: rgba(255,255,255,.7);
+    }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 12px 16px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 10px; color: var(--white);
+      font-family: 'Poppins', sans-serif; font-size: .9rem;
+      transition: border var(--transition);
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--gold);
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .contact-form .btn {
+      width: 100%; justify-content: center;
+      background: var(--gold); color: var(--text);
+    }
+    .contact-form .btn:hover { background: var(--gold-light); }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    .footer {
+      background: #1a3323; padding: 40px 0 24px;
+      color: rgba(255,255,255,.5); text-align: center;
+    }
+    .footer .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; color: var(--white); margin-bottom: 8px;
+    }
+    .footer .powered {
+      font-size: .85rem; color: var(--gold); margin-bottom: 16px;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: .85rem; transition: color var(--transition); }
+    .footer-links a:hover { color: var(--white); }
+    .footer .copy { font-size: .8rem; }
+
+    /* ═══════════════════════════════════════
+       SCROLL-TO-TOP
+    ═══════════════════════════════════════ */
+    .scroll-top {
+      position: fixed; bottom: 32px; right: 32px;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--green); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; cursor: pointer; border: none;
+      opacity: 0; pointer-events: none;
+      transition: all var(--transition); z-index: 999;
+      box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    }
+    .scroll-top.show { opacity: 1; pointer-events: all; }
+    .scroll-top:hover { background: var(--green-light); transform: translateY(-3px); }
+
+    /* ═══════════════════════════════════════
+       DESIGNED-FOR STRIP
+    ═══════════════════════════════════════ */
+    .designed-for { padding: 60px 0; background: var(--white); }
+    .designed-for-grid {
+      display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+    }
+    .designed-for-item {
+      text-align: center; max-width: 160px;
+      transition: transform var(--transition);
+    }
+    .designed-for-item:hover { transform: translateY(-6px); }
+    .designed-for-icon {
+      width: 80px; height: 80px; margin: 0 auto 14px;
+      border-radius: 50%; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 2rem;
+      background: linear-gradient(135deg, #e8f5e0, #f5e6b8);
+      box-shadow: 0 4px 16px rgba(74,124,89,.12);
+    }
+    .designed-for-item h4 { font-size: .9rem; color: var(--text); margin-bottom: 4px; }
+    .designed-for-item p { font-size: .78rem; color: #999; }
+
+    /* ═══════════════════════════════════════
+       WHATSAPP FLOAT
+    ═══════════════════════════════════════ */
+    .wa-float {
+      position: fixed; bottom: 32px; left: 32px;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #25d366; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; z-index: 999;
+      box-shadow: 0 4px 20px rgba(37,211,102,.4);
+      transition: transform var(--transition);
+      cursor: pointer; text-decoration: none;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+
+    /* ═══════════════════════════════════════
+       PRODUCT MODAL
+    ═══════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.7);
+      display: none; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .3s ease;
+      padding: 24px;
+    }
+    .modal-overlay.open { display: flex; opacity: 1; }
+    .modal {
+      background: var(--white); max-width: 580px; width: 100%;
+      border-radius: 20px; overflow: hidden;
+      max-height: 90vh; overflow-y: auto;
+      animation: modalPop .35s ease;
+    }
+    @keyframes modalPop { from { transform: scale(.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-img { overflow: hidden; background: var(--cream); }
+    .modal-img img { width: 100%; aspect-ratio: 4/3; object-fit: contain; padding: 8px; }
+    .modal-body { padding: 32px; }
+    .modal-body h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; color: var(--green); margin-bottom: 8px;
+    }
+    .modal-body .modal-tagline { color: var(--gold); font-weight: 500; margin-bottom: 16px; }
+    .modal-body h4 { font-size: .95rem; color: var(--text); margin: 16px 0 8px; }
+    .modal-body ul li {
+      font-size: .9rem; color: #666; padding: 5px 0 5px 22px; position: relative;
+    }
+    .modal-body ul li::before {
+      content: '🌿'; position: absolute; left: 0; top: 4px; font-size: .75rem;
+    }
+    .modal-close {
+      position: absolute; top: 16px; right: 20px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(0,0,0,.5); color: #fff;
+      border: none; font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .modal-cta {
+      margin-top: 24px;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #25d366; color: #fff;
+      padding: 12px 28px; border-radius: 50px;
+      font-weight: 600; font-size: .9rem;
+      transition: all var(--transition);
+    }
+    .modal-cta:hover { background: #1fb855; transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAVBAR ─── -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="logo">🌿 Nutri<span>Bloom</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#products">Products</a>
+        <a href="#videos">Videos</a>
+        <a href="#gifting">Gifting</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact" class="nav-cta">Contact Us</a>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero" id="hero">
+    <span class="hero-leaf hero-leaf-1">🍃</span>
+    <span class="hero-leaf hero-leaf-2">🌿</span>
+    <span class="hero-leaf hero-leaf-3">🍂</span>
+    <div class="container">
+      <div class="hero-text">
+        <div class="hero-badges">
+          <span class="badge badge-green">100% Homemade</span>
+          <span class="badge badge-gold">Ayurvedic Recipes</span>
+        </div>
+        <h1>Wellness in<span>Every Bite</span></h1>
+        <p class="hero-tagline">
+          <em>NutriBloom</em> brings you guilt-free healthy sweets, snacks &amp; savouries — 
+          crafted with love, powered by Ayurveda.
+        </p>
+        <div class="hero-btns">
+          <a href="#products" class="btn btn-primary">Explore Products ↓</a>
+          <a href="https://wa.me/919414004278?text=Hi%20NutriBloom%2C%20I%20want%20to%20place%20an%20order!" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Order on WhatsApp</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-float-card">
+          <span class="icon">🍯</span>
+          <span><strong>No Added Sugar</strong><br>Natural Sweetness</span>
+        </div>
+        <div class="hero-img-wrapper">
+          <img src="Content/Ad%20Posters%20With%20benefits/Hero.png?v=4" alt="NutriBloom — Wellness in Every Bite" />
+        </div>
+        <div class="hero-float-card">
+          <span class="icon">💪</span>
+          <span><strong>High Protein</strong><br>Fitness Focused</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── HIGHLIGHTS BAR ─── -->
+  <div class="highlights-bar">
+    <div class="highlights-track">
+      <div class="item"><span class="icon">🏠</span> 100% Homemade</div>
+      <div class="item"><span class="icon">🌿</span> Ayurvedic Inspired</div>
+      <div class="item"><span class="icon">💪</span> High Protein</div>
+      <div class="item"><span class="icon">🍯</span> No/Low Sugar</div>
+      <div class="item"><span class="icon">🧬</span> Nutrient Rich</div>
+      <div class="item"><span class="icon">🏋️</span> Fitness Focused</div>
+      <div class="item"><span class="icon">🎁</span> Gift Boxes Available</div>
+      <div class="item"><span class="icon">❤️</span> Made with Love</div>
+      <!-- Duplicate for seamless scroll -->
+      <div class="item"><span class="icon">🏠</span> 100% Homemade</div>
+      <div class="item"><span class="icon">🌿</span> Ayurvedic Inspired</div>
+      <div class="item"><span class="icon">💪</span> High Protein</div>
+      <div class="item"><span class="icon">🍯</span> No/Low Sugar</div>
+      <div class="item"><span class="icon">🧬</span> Nutrient Rich</div>
+      <div class="item"><span class="icon">🏋️</span> Fitness Focused</div>
+      <div class="item"><span class="icon">🎁</span> Gift Boxes Available</div>
+      <div class="item"><span class="icon">❤️</span> Made with Love</div>
+    </div>
+  </div>
+
+  <!-- ─── DESIGNED FOR ─── -->
+  <section class="designed-for">
+    <div class="container">
+      <h2 class="section-title reveal">Designed For</h2>
+      <p class="section-subtitle reveal">Our products cater to every wellness need</p>
+      <div class="designed-for-grid reveal">
+        <div class="designed-for-item">
+          <div class="designed-for-icon">🏋️</div>
+          <h4>Fitness Enthusiasts</h4>
+          <p>High protein, low sugar fuel</p>
+        </div>
+        <div class="designed-for-item">
+          <div class="designed-for-icon">⚖️</div>
+          <h4>Weight Watchers</h4>
+          <p>Low-cal guilt-free treats</p>
+        </div>
+        <div class="designed-for-item">
+          <div class="designed-for-icon">🩺</div>
+          <h4>PCOD / Thyroid</h4>
+          <p>Hormonal balance support</p>
+        </div>
+        <div class="designed-for-item">
+          <div class="designed-for-icon">🤰</div>
+          <h4>Post-Delivery Care</h4>
+          <p>Nourishing recovery bites</p>
+        </div>
+        <div class="designed-for-item">
+          <div class="designed-for-icon">🍪</div>
+          <h4>Everyday Snacking</h4>
+          <p>Healthy &amp; delicious daily</p>
+        </div>
+        <div class="designed-for-item">
+          <div class="designed-for-icon">🎁</div>
+          <h4>Gift Giving</h4>
+          <p>Curated wellness hampers</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ─── -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-img-grid reveal">
+        <img src="Content/Exhibition%20Photos/WhatsApp%20Image%202026-04-04%20at%203.08.05%20AM.jpeg" alt="NutriBloom Exhibition" style="object-position:center 40%" />
+        <img src="Content/Real%20Images/Paneer%20Delight.jpeg" alt="Paneer Delight" style="object-position:center center" />
+        <img src="Content/Real%20Images/Tangy%20Makhana.jpeg" alt="Tangy Makhana" style="object-position:center center" />
+      </div>
+      <div class="about-content reveal">
+        <h2>The NutriBloom Story</h2>
+        <p>Born from a passion for health and tradition, <strong>NutriBloom</strong> is a homegrown brand that blends Ayurvedic wisdom with modern nutrition. Every product is lovingly handcrafted using premium ingredients — no preservatives, no shortcuts.</p>
+        <p>Whether you're a fitness enthusiast, managing PCOD/thyroid, watching your weight, or simply craving a guilt-free treat — NutriBloom has something crafted just for you.</p>
+        <div class="about-stats">
+          <div class="stat">
+            <h3>9+</h3>
+            <p>Products</p>
+          </div>
+          <div class="stat">
+            <h3>100%</h3>
+            <p>Homemade</p>
+          </div>
+          <div class="stat">
+            <h3>0</h3>
+            <p>Preservatives</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PRODUCTS ─── -->
+  <section class="products" id="products">
+    <div class="container">
+      <h2 class="section-title reveal">Our Products</h2>
+      <p class="section-subtitle reveal">Guilt-Free Healthy Snacking — handcrafted with love</p>
+
+      <div class="product-tabs reveal">
+        <button class="product-tab active" data-filter="all">All Products</button>
+        <button class="product-tab" data-filter="ladoo">Healthy Ladoos</button>
+        <button class="product-tab" data-filter="snack">Snacks &amp; Savouries</button>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+
+        <!-- 1. Haldi Ladoo -->
+        <div class="product-card reveal" data-category="ladoo"
+             data-modal="haldi">
+          <div class="product-card-img">
+            <img src="Content/Product%20images/Haldi%20Laddoo.png" alt="Haldi Ladoo" />
+            <div class="overlay"><p class="overlay-text">Click to view details</p></div>
+          </div>
+          <div class="product-card-body">
+            <span class="badge badge-green">Ayurvedic</span>
+            <h3>Haldi Ladoo</h3>
+            <p class="tagline">Golden Bite of Health</p>
+            <div class="benefits">
+              <ul>
+                <li>Boosts immunity &amp; fights infections</li>
+                <li>Relieves joint &amp; muscle pain</li>
+                <li>Supports hormonal balance (PCOD/PCOS)</li>
+                <li>Helps recovery post-delivery</li>
+                <li>Improves digestion &amp; liver health</li>
+                <li>Enhances skin glow &amp; anti-aging</li>
+                <li>Provides daily energy &amp; stamina</li>
+              </ul>
+            </div>
+            <button class="toggle-btn" onclick="event.stopPropagation(); toggleBenefits(this)">
+              View Benefits <span class="arrow">▼</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Balance Bites -->
+        <div class="product-card reveal" data-category="ladoo"
+             data-modal="balance">
+          <div class="product-card-img">
+            <img src="Content/Product%20images/Fenugreek%20Laddoo.png" alt="Balance Bites" />
+            <div class="overlay"><p class="overlay-text">Click to view details</p></div>
+          </div>
+          <div class="product-card-body">
+            <span class="badge badge-green">Weight Loss</span>
+            <h3>Balance Bites</h3>
+            <p class="tagline">Sprouted Fenugreek Ladoo</p>
+            <div class="benefits">
+              <ul>
+                <li>Supports weight loss (~111 kcal per ladoo)</li>
+                <li>Made with sprouted fenugreek, oats &amp; dry fruits</li>
+                <li>Helps with PCOD, thyroid &amp; metabolism</li>
+                <li>Boosts energy, strength &amp; immunity</li>
+              </ul>
+            </div>
+            <button class="toggle-btn" onclick="event.stopPropagation(); toggleBenefits(this)">
+              View Benefits <span class="arrow">▼</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Nuts Delight -->
+        <div class="product-card reveal" data-category="ladoo"
+             data-modal="nuts">
+          <div class="product-card-img">
+            <img src="Content/Product%20images/Nuts%20Delight.png" alt="Nuts Delight" />
+            <div class="overlay"><p class="overlay-text">Click to view details</p></div>
+          </div>
+          <div class="product-card-body">
+            <span class="badge badge-gold">Protein Rich</span>
+            <h3>Nuts Delight</h3>
+            <p class="tagline">Protein Rich Ladoo</p>
+            <div class="benefits">
+              <ul>
+                <li>High protein content</li>
+                <li>Energy boosting &amp; nutritious</li>
+                <li>Rich in dry fruits &amp; seeds</li>
+                <li>Great for fitness lovers</li>
+              </ul>
+            </div>
+            <button class="toggle-btn" onclick="event.stopPropagation(); toggleBenefits(this)">
+              View Benefits <span class="arrow">▼</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Paneer Delight -->
+        <div class="product-card reveal" data-category="ladoo"
+             data-modal="paneer">
+          <div class="product-card-img">
+            <img src="Content/Product%20images/Paneer%20Delight.png" alt="Paneer Delight" />
+            <div class="overlay"><p class="overlay-text">Click to view details</p></div>
+          </div>
+          <div class="product-card-body">
+            <span class="badge badge-green">Sugar Free</span>
+            <h3>Paneer Delight</h3>
+            <p class="tagline">Sugar-Free Sweet</p>
+            <div class="benefits">
+              <ul>
+                <li>Made from pure cow milk paneer</li>
+                <li>Sugar-free yet naturally sweet</li>
+                <li>High protein &amp; soft texture</li>
+                <li>Ideal for fitness-conscious people</li>
+                <li>Perfect for sweet cravings without guilt</li>
+              </ul>
+            </div>
+            <button class="toggle-btn" onclick="event.stopPropagation(); toggleBenefits(this)">
+              View Benefits <span class="arrow">▼</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. Besan Ladoo -->
+        <div class="product-card reveal" data-category="ladoo"
+             data-modal="besan">
+          <div class="product-card-img">
+            <img src="Content/Product%20images/Besan%20laddoo.png" alt="Besan Ladoo" />
+            <div class="overlay"><p class="overlay-text">Click to view details</p></div>
+          </div>
+          <div class="product-card-body">
+            <span class="badge badge-gold">Traditional</span>
+            <h3>Besan Ladoo</h3>
+            <p class="tagline">Classic Homemade</p>
+            <div class="benefits">
+              <ul>
+                <li>Traditional taste with wholesome goodness</li>
+                <li>Energy-rich snack</li>
+                <li>Perfect for festivals &amp; everyday treat</li>
+              </ul>
+            </div>
+            <button class="toggle-btn" onclick="event.stopPropagation(); toggleBenefits(this)">
+              View Benefits <span class="arrow">▼</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 6. Jeera Bliss Ladoo -->
+        <div class="product-card reveal" data-category="ladoo"
+             data-modal="jeera">
+          <div class="product-card-img">
+            <img src="Content/Product%20images/Jeera%20Laddoo.png" alt="Jeera Bliss Ladoo" />
+            <div class="overlay"><p class="overlay-text">Click to view details</p></div>
+          </div>
+          <div class="product-card-body">
+            <span class="badge badge-green">Gut Friendly</span>
+            <h3>Jeera Bliss Ladoo</h3>
+            <p class="tagline">Digestive Delight</p>
+            <div class="benefits">
+              <ul>
+                <li>Improves digestion</li>
+                <li>Reduces bloating</li>
+                <li>Boosts metabolism</li>
+                <li>Gut-friendly &amp; light</li>
+              </ul>
+            </div>
+            <button class="toggle-btn" onclick="event.stopPropagation(); toggleBenefits(this)">
+              View Benefits <span class="arrow">▼</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 7. Protein Punch Mathri -->
+        <div class="product-card reveal" data-category="snack"
+             data-modal="mathri">
+          <div class="product-card-img">
+            <img src="Content/Product%20images/Matri.png" alt="Protein Punch Mathri" />
+            <div class="overlay"><p class="overlay-text">Click to view details</p></div>
+          </div>
+          <div class="product-card-body">
+            <span class="badge badge-gold">High Protein</span>
+            <h3>Protein Punch Mathri</h3>
+            <p class="tagline">Crunchy &amp; Healthy</p>
+            <div class="benefits">
+              <ul>
+                <li>High protein &amp; fiber</li>
+                <li>Gluten-free option available</li>
+                <li>Crunchy &amp; healthy alternative snack</li>
+              </ul>
+            </div>
+            <button class="toggle-btn" onclick="event.stopPropagation(); toggleBenefits(this)">
+              View Benefits <span class="arrow">▼</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 8. Tangy Mint Makhana -->
+        <div class="product-card reveal" data-category="snack"
+             data-modal="tangy">
+          <div class="product-card-img">
+            <img src="Content/Product%20images/Tangy%20Makhana.png" alt="Tangy Mint Makhana" />
+            <div class="overlay"><p class="overlay-text">Click to view details</p></div>
+          </div>
+          <div class="product-card-body">
+            <span class="badge badge-green">Light &amp; Healthy</span>
+            <h3>Tangy Mint Makhana</h3>
+            <p class="tagline">Flavored for Taste + Nutrition</p>
+            <div class="benefits">
+              <ul>
+                <li>Light &amp; healthy snack</li>
+                <li>Flavored for taste + nutrition</li>
+                <li>Low calorie &amp; satisfying</li>
+              </ul>
+            </div>
+            <button class="toggle-btn" onclick="event.stopPropagation(); toggleBenefits(this)">
+              View Benefits <span class="arrow">▼</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 9. 7 Seed Crunchy & Munch -->
+        <div class="product-card reveal" data-category="snack"
+             data-modal="crunch">
+          <div class="product-card-img">
+            <img src="Content/Product%20images/7%20Seed%20Crunchy%20%26%20Munch.png" alt="7 Seed Crunchy & Munch" />
+            <div class="overlay"><p class="overlay-text">Click to view details</p></div>
+          </div>
+          <div class="product-card-body">
+            <span class="badge badge-green">Multi-Seed</span>
+            <h3>7 Seed Crunchy &amp; Munch</h3>
+            <p class="tagline">Great for Snacking &amp; Nutrition</p>
+            <div class="benefits">
+              <ul>
+                <li>Multi-seed blend</li>
+                <li>Great for snacking &amp; nutrition</li>
+                <li>Crunchy, tasty &amp; wholesome</li>
+              </ul>
+            </div>
+            <button class="toggle-btn" onclick="event.stopPropagation(); toggleBenefits(this)">
+              View Benefits <span class="arrow">▼</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── VIDEOS ─── -->
+  <section class="videos" id="videos">
+    <div class="container">
+      <h2 class="section-title reveal">Behind the Scenes</h2>
+      <p class="section-subtitle reveal">Watch how our products are lovingly handcrafted</p>
+      <div class="video-grid">
+        <div class="video-card reveal">
+          <video src="Content/Making%20Videos/Paneer%20Delight.mp4" muted playsinline preload="metadata" onclick="toggleVideo(this)"></video>
+          <div class="caption">
+            <h4>Paneer Delight — Making Process</h4>
+            <p>Tap to play</p>
+          </div>
+        </div>
+        <div class="video-card reveal">
+          <video src="Content/Making%20Videos/Tangy%20Makhana.mp4" muted playsinline preload="metadata" onclick="toggleVideo(this)"></video>
+          <div class="caption">
+            <h4>Tangy Makhana — Making Process</h4>
+            <p>Tap to play</p>
+          </div>
+        </div>
+        <div class="video-card reveal">
+          <video src="Content/Making%20Videos/Multi%20Orders.mp4" muted playsinline preload="metadata" onclick="toggleVideo(this)"></video>
+          <div class="caption">
+            <h4>Orders in Preparation</h4>
+            <p>Tap to play</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── GIFTING ─── -->
+  <section class="gifting" id="gifting">
+    <div class="container">
+      <div class="gifting-inner">
+        <div class="gifting-content reveal">
+          <h2>🎁 Gift Health &amp; Happiness</h2>
+          <p>Spread wellness with NutriBloom's beautifully curated gift boxes. Perfect for every occasion — from festivals to corporate gifting.</p>
+          <ul>
+            <li>Festive gift boxes (Paneer Delight / Ladoo assortments)</li>
+            <li>Custom healthy hampers available</li>
+            <li>Ideal for corporate gifting &amp; occasions</li>
+            <li>Personalized packaging on request</li>
+          </ul>
+          <br />
+          <a href="https://wa.me/919414004278?text=Hi%20NutriBloom%2C%20I%27m%20interested%20in%20gift%20hampers!" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Enquire for Gift Boxes</a>
+        </div>
+        <div class="gifting-images reveal">
+          <img src="Content/Ad%20Posters%20With%20benefits/Paneer%20Delight%202.jpeg" alt="Gift Box 1" />
+          <img src="Content/Product%20images/Laddoos%20Box.png" alt="Ladoo Gift Box" />
+          <img src="Content/Real%20Images/WhatsApp%20Image%202026-04-04%20at%203.10.55%20AM.jpeg" alt="Gift Hamper" />
+          <img src="Content/Real%20Images/WhatsApp%20Image%202026-04-04%20at%203.16.21%20AM.jpeg" alt="Gift Display" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── GALLERY ─── -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <h2 class="section-title reveal">Gallery</h2>
+      <p class="section-subtitle reveal">Glimpses of NutriBloom at exhibitions &amp; events</p>
+      <div class="gallery-grid reveal">
+        <img src="Content/Exhibition%20Photos/WhatsApp%20Image%202026-04-04%20at%203.08.05%20AM.jpeg" alt="Exhibition" onclick="openLightbox(this.src)" style="object-position:center 40%" />
+        <img src="Content/Ad%20Posters%20With%20benefits/Brand%20details.jpeg" alt="Brand Details" onclick="openLightbox(this.src)" />
+        <img src="Content/Product%20images/Laddoos%20Box.png" alt="Ladoo Box" onclick="openLightbox(this.src)" />
+        <img src="Content/Real%20Images/Paneer%20Delight.jpeg" alt="Paneer Delight" onclick="openLightbox(this.src)" />
+        <img src="Content/Real%20Images/Tangy%20Makhana.jpeg" alt="Tangy Makhana" onclick="openLightbox(this.src)" />
+        <img src="Content/Real%20Images/WhatsApp%20Image%202026-04-04%20at%203.10.55%20AM.jpeg" alt="Products Display" onclick="openLightbox(this.src)" />
+        <img src="Content/Real%20Images/WhatsApp%20Image%202026-04-04%20at%203.16.21%20AM.jpeg" alt="Products" onclick="openLightbox(this.src)" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ─── -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2 class="section-title reveal">Get in Touch</h2>
+      <p class="section-subtitle reveal">We'd love to hear from you</p>
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <h3>Contact Information</h3>
+          <div class="contact-item">
+            <div class="contact-icon">👤</div>
+            <div>
+              <h4>Contact Person</h4>
+              <p>Montu Karnawat</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <h4>Phone Numbers</h4>
+              <p><a href="tel:+919414004278">9414004278</a></p>
+              <p><a href="tel:+919116530611">9116530611</a></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">💬</div>
+            <div>
+              <h4>WhatsApp</h4>
+              <p><a href="https://wa.me/919414004278" target="_blank" rel="noopener noreferrer">Chat with us on WhatsApp</a></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🏷️</div>
+            <div>
+              <h4>Brand</h4>
+              <p>NutriBloom</p>
+              <p style="font-size:.8rem;color:var(--gold-light);">Powered by Montu's Workout</p>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form reveal">
+          <h3>Send a Quick Message</h3>
+          <form id="contactForm" onsubmit="handleContactForm(event)">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" placeholder="Enter your name" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" placeholder="Your phone number" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" placeholder="What would you like to order?"></textarea>
+            </div>
+            <button type="submit" class="btn">Send via WhatsApp →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer">
+    <div class="container">
+      <p class="logo-text">🌿 NutriBloom</p>
+      <p class="powered">Powered by Montu's Workout</p>
+      <div class="footer-links">
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#products">Products</a>
+        <a href="#videos">Videos</a>
+        <a href="#gifting">Gifting</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p class="copy">&copy; 2026 NutriBloom. All rights reserved. | Wellness in Every Bite</p>
+    </div>
+  </footer>
+
+  <!-- ─── LIGHTBOX ─── -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightboxImg" src="" alt="Gallery Image" />
+  </div>
+
+  <!-- ─── SCROLL TO TOP ─── -->
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <!-- ─── WHATSAPP FLOAT ─── -->
+  <a class="wa-float" href="https://wa.me/919414004278?text=Hi%20NutriBloom!" target="_blank" rel="noopener noreferrer" title="Chat on WhatsApp">💬</a>
+
+  <!-- ═══════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════ -->
+  <script>
+    /* ── Navbar Scroll ── */
+    const navbar = document.getElementById('navbar');
+    const scrollTop = document.getElementById('scrollTop');
+
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+      scrollTop.classList.toggle('show', window.scrollY > 400);
+    });
+
+    /* ── Mobile Menu ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('open');
+      });
+    });
+
+    /* ── Scroll Reveal ── */
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    /* ── Product Tabs ── */
+    const tabs = document.querySelectorAll('.product-tab');
+    const cards = document.querySelectorAll('.product-card');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const filter = tab.dataset.filter;
+
+        cards.forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.style.display = '';
+            setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 50);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => { card.style.display = 'none'; }, 350);
+          }
+        });
+      });
+    });
+
+    /* ── Toggle Benefits ── */
+    function toggleBenefits(btn) {
+      const benefits = btn.previousElementSibling;
+      benefits.classList.toggle('show');
+      btn.classList.toggle('open');
+      btn.childNodes[0].textContent = benefits.classList.contains('show') ? 'Hide Benefits ' : 'View Benefits ';
+    }
+
+    /* ── Product Card Click → WhatsApp ── */
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const name = card.querySelector('h3').textContent;
+        const url = `https://wa.me/919414004278?text=${encodeURIComponent(`Hi NutriBloom! I'm interested in ${name}. Please share more details.`)}`;
+        window.open(url, '_blank', 'noopener,noreferrer');
+      });
+    });
+
+    /* ── Video Toggle ── */
+    function toggleVideo(video) {
+      if (video.paused) {
+        document.querySelectorAll('video').forEach(v => { if (v !== video) v.pause(); });
+        video.play();
+        video.closest('.video-card').querySelector('.caption p').textContent = 'Tap to pause';
+      } else {
+        video.pause();
+        video.closest('.video-card').querySelector('.caption p').textContent = 'Tap to play';
+      }
+    }
+
+    /* ── Lightbox ── */
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lightboxImg').src = src;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    /* ── Contact Form → WhatsApp ── */
+    function handleContactForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      const text = `Hi NutriBloom!%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AMessage: ${encodeURIComponent(message)}`;
+      window.open(`https://wa.me/919414004278?text=${text}`, '_blank', 'noopener,noreferrer');
+    }
+
+    /* ── Counter Animation (About Stats) ── */
+    function animateCounters() {
+      document.querySelectorAll('.about-stats .stat h3').forEach(el => {
+        const target = parseInt(el.textContent);
+        if (isNaN(target)) return;
+        let current = 0;
+        const step = Math.max(1, Math.floor(target / 40));
+        const interval = setInterval(() => {
+          current += step;
+          if (current >= target) { current = target; clearInterval(interval); }
+          el.textContent = current + (el.textContent.includes('+') ? '+' : el.textContent.includes('%') ? '%' : '');
+        }, 30);
+      });
+    }
+
+    const aboutSection = document.querySelector('.about');
+    const counterObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        animateCounters();
+        counterObserver.unobserve(aboutSection);
+      }
+    }, { threshold: 0.3 });
+    counterObserver.observe(aboutSection);
+  </script>
+</body>
+</html>
