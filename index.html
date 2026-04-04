@@ -600,6 +600,149 @@
     .footer .copy { font-size: .8rem; }
 
     /* ═══════════════════════════════════════
+       WELLNESS JOURNEY (Montu's Workout)
+    ═══════════════════════════════════════ */
+    .wellness-journey {
+      padding: 100px 0;
+      background: linear-gradient(135deg, #f0e8d5 0%, #e8f5e0 50%, #faf6eb 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .wellness-journey::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(74,124,89,.08), transparent 70%);
+      border-radius: 50%;
+    }
+    .wellness-journey .container {
+      position: relative; z-index: 1;
+    }
+    .wellness-badge {
+      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .wellness-badge .badge {
+      font-size: .72rem; padding: 5px 14px;
+    }
+    .wellness-journey .section-title {
+      margin-bottom: 8px;
+    }
+    .wellness-journey .section-subtitle {
+      max-width: 700px; margin-left: auto; margin-right: auto;
+      margin-bottom: 40px; line-height: 1.7;
+    }
+    .wellness-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+    .wellness-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+    .wellness-info p {
+      color: #666; line-height: 1.8; margin-bottom: 16px; font-size: .95rem;
+    }
+    .wellness-tags {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;
+    }
+    .wellness-tag {
+      background: var(--white);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--green);
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      transition: all var(--transition);
+    }
+    .wellness-tag:hover {
+      background: var(--green);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .wellness-visual {
+      display: flex; flex-direction: column; gap: 16px;
+      align-items: center;
+    }
+    .wellness-stat-cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%;
+    }
+    .wellness-stat-card {
+      background: var(--white);
+      padding: 24px 20px;
+      border-radius: var(--radius);
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition);
+    }
+    .wellness-stat-card:hover { transform: translateY(-4px); }
+    .wellness-stat-card .stat-icon {
+      font-size: 2rem; margin-bottom: 8px;
+    }
+    .wellness-stat-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; color: var(--green); margin-bottom: 4px;
+    }
+    .wellness-stat-card p {
+      font-size: .8rem; color: #999;
+    }
+    .wellness-cta {
+      text-align: center;
+    }
+    .wellness-cta p {
+      font-size: 1.05rem; color: #666; margin-bottom: 20px;
+      font-weight: 300;
+    }
+    .wellness-cta p strong {
+      color: var(--green); font-weight: 600;
+    }
+    .btn-wellness {
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      color: var(--white);
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      box-shadow: 0 6px 24px rgba(74,124,89,.3);
+    }
+    .btn-wellness:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(74,124,89,.4);
+    }
+    .btn-wellness .arrow {
+      transition: transform var(--transition);
+    }
+    .btn-wellness:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    @media (max-width: 768px) {
+      .wellness-journey { padding: 60px 0; }
+      .wellness-grid { grid-template-columns: 1fr; gap: 32px; }
+      .wellness-stat-cards { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .wellness-journey { padding: 48px 0; }
+      .wellness-info h3 { font-size: 1.3rem; }
+      .wellness-info p { font-size: .88rem; }
+      .wellness-stat-cards { grid-template-columns: 1fr; }
+      .wellness-tag { font-size: .76rem; padding: 6px 14px; }
+      .btn-wellness { padding: 14px 28px; font-size: .9rem; }
+    }
+
+    /* ═══════════════════════════════════════
        SCROLL-TO-TOP
     ═══════════════════════════════════════ */
     .scroll-top {
@@ -856,6 +999,7 @@
         <a href="#videos">Videos</a>
         <a href="#gifting">Gifting</a>
         <a href="#gallery">Gallery</a>
+        <a href="#wellness">Wellness</a>
         <a href="#contact" class="nav-cta">Contact Us</a>
       </div>
       <div class="hamburger" id="hamburger">
@@ -1372,6 +1516,68 @@
     </div>
   </section>
 
+  <!-- ─── WELLNESS JOURNEY ─── -->
+  <section class="wellness-journey" id="wellness">
+    <div class="container">
+      <div class="wellness-badge">
+        <span class="badge badge-green">Hatha Yogacharya</span>
+        <span class="badge badge-gold">RYT Certified</span>
+        <span class="badge badge-green">Yoga Therapist</span>
+      </div>
+      <h2 class="section-title">Transform Your<br>Body, Mind &amp; Life</h2>
+      <p class="section-subtitle">Your Wellness &bull; Our Mission. 18+ years of dedicated practice in Yoga, Fitness, Reiki Healing, Meditation &amp; Women Wellness. Join 500+ happy clients on their wellness journey.</p>
+
+      <div class="wellness-grid reveal">
+        <div class="wellness-info">
+          <h3>Your Wellness Journey Starts Here</h3>
+          <p>At <strong>Montu's Workout &amp; Yoga</strong>, we combine traditional Hatha Yoga with modern therapeutic techniques to deliver safe, scientific, and result-driven wellness programs. With over 18 years of experience and a community of 500+ thriving clients, every session is personalized and focused on real transformation.</p>
+          <p>Whether your goal is fitness, healing, pregnancy care, or mental wellness — we're here to guide you with certified expertise and genuine care.</p>
+          <div class="wellness-tags">
+            <span class="wellness-tag">🧘 Hatha Yogacharya</span>
+            <span class="wellness-tag">📜 RYT Certified</span>
+            <span class="wellness-tag">💆 Reiki Practitioner</span>
+            <span class="wellness-tag">🤰 Prenatal-Postnatal Expert</span>
+            <span class="wellness-tag">🧖 Face Yoga Expert</span>
+            <span class="wellness-tag">🧠 Meditation Coach</span>
+            <span class="wellness-tag">🌸 Women's Wellness Coach</span>
+            <span class="wellness-tag">🔢 Numerology Expert</span>
+          </div>
+        </div>
+        <div class="wellness-visual">
+          <div class="wellness-stat-cards">
+            <div class="wellness-stat-card">
+              <div class="stat-icon">🧘</div>
+              <h4>18+</h4>
+              <p>Years of Practice</p>
+            </div>
+            <div class="wellness-stat-card">
+              <div class="stat-icon">😊</div>
+              <h4>500+</h4>
+              <p>Happy Clients</p>
+            </div>
+            <div class="wellness-stat-card">
+              <div class="stat-icon">🏅</div>
+              <h4>RYT</h4>
+              <p>Certified Trainer</p>
+            </div>
+            <div class="wellness-stat-card">
+              <div class="stat-icon">💚</div>
+              <h4>100%</h4>
+              <p>Personalized Care</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wellness-cta reveal">
+        <p>Healthy eating is just the beginning — <strong>complete your wellness journey</strong> with expert yoga, fitness &amp; healing.</p>
+        <a href="https://aabhas4403.github.io/MontusWorkout/" target="_blank" rel="noopener noreferrer" class="btn-wellness">
+          Explore Montu's Workout &amp; Yoga <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- ─── FOOTER ─── -->
   <footer class="footer">
     <div class="container">
@@ -1383,6 +1589,7 @@
         <a href="#products">Products</a>
         <a href="#videos">Videos</a>
         <a href="#gifting">Gifting</a>
+        <a href="#wellness">Wellness</a>
         <a href="#contact">Contact</a>
       </div>
       <p class="copy">&copy; 2026 NutriBloom. All rights reserved. | Wellness in Every Bite</p>
